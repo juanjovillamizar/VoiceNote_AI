@@ -1185,7 +1185,7 @@ export default function Dashboard() {
   function downloadFile(format: "pdf" | "docx") {
     if (!activeMeeting) return;
     const token = getToken();
-    fetch(`/api/meetings/${activeMeeting.id}/export/${format}`, {
+    fetch(`https://voicenote-backend-endl.onrender.com/api/meetings/${activeMeeting.id}/export/${format}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => {
