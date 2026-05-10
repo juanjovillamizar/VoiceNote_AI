@@ -13,9 +13,11 @@ export function clearToken() {
   if (typeof window !== "undefined") localStorage.removeItem(TOKEN_KEY);
 }
 
-// ── Core request helper ────────────────────────────────────────────────────────
+// Configuración de la URL base: Usa la de Vercel en producción o localhost en desarrollo
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const BASE_PREFIX = "/api";
 
-const BASE = "/api";
+// ── Core request helper ────────────────────────────────────────────────────────
 
 async function req<T>(
   path: string,
@@ -26,18 +28,22 @@ async function req<T>(
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
   };
+
   const t = token ?? getToken();
   if (t) headers["Authorization"] = `Bearer ${t}`;
 
   let res: Response;
 
+  // Construimos la URL completa para que no se pierda en Vercel
+  const fullUrl = `${API_URL}${BASE_PREFIX}${path}`;
+
   try {
-    res = await fetch(`${BASE}${path}`, { ...options, headers });
+    res = await fetch(fullUrl, { ...options, headers });
   } catch (networkErr: unknown) {
     const msg =
       networkErr instanceof Error ? networkErr.message : "Sin conexión";
     throw new Error(
-      `Error de red: ${msg}. Verifica que Docker esté corriendo con 'docker compose ps'.`,
+      `Error de red: ${msg}. Verifica que el backend en Render esté activo.`,
     );
   }
 
@@ -163,7 +169,7 @@ export async function apiHealthCheck(): Promise<{
   detail: string;
 }> {
   try {
-    const res = await fetch("/api/health");
+    const res = await fetch(`${API_URL}${BASE_PREFIX}/health`);
     if (res.ok) {
       const data = await res.json();
       return { ok: true, detail: `API v${data.version ?? "?"} ✓` };
