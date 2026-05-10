@@ -784,7 +784,7 @@ export default function Dashboard() {
       const form = new FormData();
       form.append("audio", fullBlob, "recording.webm");
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/transcribe/audio/${meetingId}?token=${token}&offset=${offsetSecs.toFixed(2)}`,
+        `https://voicenote-backend-endl.onrender.com/api/transcribe/audio/${meetingId}?token=${token}&offset=${offsetSecs.toFixed(2)}`,
         { method: "POST", body: form },
       );
       if (!res.ok) {
@@ -1215,7 +1215,7 @@ export default function Dashboard() {
       const form = new FormData();
       form.append("file", file);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/transcribe/upload`,
+        `https://voicenote-backend-endl.onrender.com/api/transcribe/upload`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
