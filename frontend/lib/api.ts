@@ -15,7 +15,7 @@ export function clearToken() {
 
 // Configuración de la URL base: Usa la de Vercel en producción o localhost en desarrollo
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-const BASE_PREFIX = "/api";
+const BASE_PREFIX = "";
 
 // ── Core request helper ────────────────────────────────────────────────────────
 
