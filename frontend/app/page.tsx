@@ -68,7 +68,10 @@ import WaveSurfer from "wavesurfer.js";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react"; // <--- AÑADIDO 'Wallet'
 
 if (typeof window !== "undefined") {
-  initMercadoPago("TEST-ba32743b-2c1d-4ada-a661-03d4bb925a6b", {
+  const mpKey =
+    process.env.NEXT_PUBLIC_MP_PUBLIC_KEY ||
+    "APP_USR-630d8029-cd52-4fcc-8107-c985a769e712";
+  initMercadoPago(mpKey, {
     locale: "es-CO",
   });
 }
@@ -1185,9 +1188,12 @@ export default function Dashboard() {
   function downloadFile(format: "pdf" | "docx") {
     if (!activeMeeting) return;
     const token = getToken();
-    fetch(`https://voicenote-backend-endl.onrender.com/api/meetings/${activeMeeting.id}/export/${format}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    fetch(
+      `https://voicenote-backend-endl.onrender.com/api/meetings/${activeMeeting.id}/export/${format}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    )
       .then((r) => {
         if (!r.ok) throw new Error();
         return r.blob();
