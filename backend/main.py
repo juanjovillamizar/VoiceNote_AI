@@ -70,7 +70,8 @@ TOKEN_EXPIRE_DAYS = 7
 
 # Permite localhost para desarrollo. En producción añade tu dominio real al .env
 ALLOWED_ORIGINS = os.getenv(
-    "ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
+    "ALLOWED_ORIGINS",
+    "http://localhost:3000,http://127.0.0.1:3000,https://voice-note-ai-zeta.vercel.app",
 ).split(",")
 
 _groq_client: Optional[Groq] = None
