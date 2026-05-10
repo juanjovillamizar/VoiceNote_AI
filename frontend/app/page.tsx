@@ -784,7 +784,7 @@ export default function Dashboard() {
       const form = new FormData();
       form.append("audio", fullBlob, "recording.webm");
       const res = await fetch(
-        `/api/transcribe/audio/${meetingId}?token=${token}&offset=${offsetSecs.toFixed(2)}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/transcribe/audio/${meetingId}?token=${token}&offset=${offsetSecs.toFixed(2)}`,
         { method: "POST", body: form },
       );
       if (!res.ok) {
@@ -1214,11 +1214,14 @@ export default function Dashboard() {
       const token = getToken();
       const form = new FormData();
       form.append("file", file);
-      const res = await fetch("/api/transcribe/upload", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: form,
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/transcribe/upload`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: form,
+        },
+      );
       if (!res.ok) {
         const err = await res
           .json()
@@ -2279,7 +2282,7 @@ export default function Dashboard() {
                             Desarrollador Principal
                           </p>
                           <p className="text-[15px] sm:text-base text-indigo-300 font-bold leading-tight truncate">
-                            Juan Villamizar - Carlos Arrieta
+                            Juan Jose Villamizar Diaz
                           </p>
                           <p className="text-xs text-slate-500 mt-0.5 truncate">
                             Universidad Cooperativa de Colombia
